@@ -1,0 +1,39 @@
+name: Test Build/release Electron app
+
+on:
+  workflow_dispatch:  # Permite execução manual
+  push:
+    branches:
+      - main  # Executa em pushes para main (para teste)
+
+jobs:
+  test-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: build-win
+        run: npm run build:win
+
+      # Comentado para teste - descomente quando quiser testar o release
+      # - name: release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     draft: true
+      #     files: |
+      #       dist/*.exe
+      #       dist/*.zip
+      #       dist/*.yml
+      #       dist/*.blockmap
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

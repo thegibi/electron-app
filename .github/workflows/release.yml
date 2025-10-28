@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - v*.*.*
+  workflow_dispatch:  # Permite execução manual
+  # push:  # Descomente para testar em pushes normais
+  #   branches:
+  #     - main
 
 jobs:
   release:
@@ -25,7 +29,7 @@ jobs:
         run: npm run build:win
 
       - name: release
-        uses: softprops/action-gh-release@v4
+        uses: softprops/action-gh-release@v2
         with:
           draft: true
           files: |
